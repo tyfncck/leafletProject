@@ -7,7 +7,9 @@ var Layer = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
 
-var layerGroup = [];
+let layerGroup = [];
+let Marker = null;
+let Circle = null;
 
 (Layer).addTo(map);
 
@@ -23,35 +25,45 @@ var LeafIcon = L.Icon.extend({
 });
 
 var markerOptions = {
-    title: "Konumun",
+    title: "Konum",
     clickable: true,
-    draggable: true
+    draggable: false
 }
 
-$("#find_btn").click(function() { //user clicks button
-    if ("geolocation" in navigator) { //check geolocation available 
-        //try to get user current location using getCurrentPosition() method
+$("#find_btn").click(function() {
+    if ("geolocation" in navigator) { //konum durumu kontrolü
         navigator.geolocation.getCurrentPosition(function(position) {
-            // $("#result").html("Konum <br />Lat : " + position.coords.latitude + " </br>Lang :" + position.coords.longitude);
-            if (layerGroup !== undefined) {
+            if (layerGroup !== null) {
 
+                if (Marker !== null) {
+                    map.removeLayer(Marker);
+                }
                 map.removeLayer(layerGroup);
 
-                var Marker = new L.marker([position.coords.latitude, position.coords.longitude], markerOptions).bindPopup("Bulunduğunuz Konum");
+                Marker = new L.marker([position.coords.latitude, position.coords.longitude], markerOptions).bindPopup("Konumun");
 
-                var Circle = new L.circle([position.coords.latitude, position.coords.longitude], {
+                Circle = new L.circle([position.coords.latitude, position.coords.longitude], {
                     color: 'red',
                     fillColor: '#f03',
                     fillOpacity: 0.5,
                     radius: 100
-                }).bindPopup("Bulunduğunuz Alan");
+                }).bindPopup("Alanın");
 
                 layerGroup = L.layerGroup([Marker, Circle]);
 
                 layerGroup.addTo(map);
+                $("#result").html("Konum <br />Lat : " + position.coords.latitude + " </br>Lang :" + position.coords.longitude); //
             }
         });
     } else {
-        console.log("Browser doesn't support geolocation!");
+        console.log("Tarayıcı Desteklemiyor!!!");
     }
+});
+
+map.on('click', (event) => {
+    if (Marker !== null) {
+        map.removeLayer(Marker);
+    }
+    Marker = L.marker([event.latlng.lat, event.latlng.lng]).addTo(map);
+    $("#result").html("Konum <br />Lat : " + event.latlng.lat + " </br>Lang :" + event.latlng.lng);
 });
