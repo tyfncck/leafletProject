@@ -18,8 +18,39 @@ namespace leafletProject.Controllers
             return View();
         }
 
+        public JsonResult GetAreas() 
+        {
+            List<Areas> areas = new();
+            areas.Add(new Areas
+            {
+                Id = 1,
+                UserId = 1,
+                Latitude = "38.69858582473636",
+                Longitude = "35.504379272460945",
+                Description = "Hava İkmal Kirli Alan"
+            });
+            areas.Add(new Areas
+            {
+                Id = 1,
+                UserId = 1,
+                Latitude = "38.73180326365896",
+                Longitude = "35.541801452636726",
+                Description = "Yıldırım Beyazıt Kirli Alan"
+            });
+            areas.Add(new Areas
+            {
+                Id = 1,
+                UserId = 1,
+                Latitude = "38.696844162234065",
+                Longitude = "35.5514144897461",
+                Description = "Yenidoğan Kirli Alan"
+            });
+            return Json(areas);
+        }
+
         public IActionResult Privacy()
         {
+
             return View();
         }
 

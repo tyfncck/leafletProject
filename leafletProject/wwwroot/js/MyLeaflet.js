@@ -4,8 +4,10 @@
 var map = new L.map('map').setView([38.713979, 35.532873], 13);
 
 var Layer = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    //attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 });
+
+$('.leaflet-control-attribution').hide()
 
 let layerGroup = [];
 let Marker = null;
@@ -66,4 +68,22 @@ map.on('click', (event) => {
     }
     Marker = L.marker([event.latlng.lat, event.latlng.lng]).addTo(map);
     $("#result").html("Konum <br />Lat : " + event.latlng.lat + " </br>Lang :" + event.latlng.lng);
+});
+
+
+$.ajax({
+    url: 'Home/GetAreas',
+    success: function(data) {
+        console.log(data)
+        $(data).each(function(index, item) {
+            var Ltd = item.latitude;
+            var Lng = item.longitude;
+            L.circle([Ltd, Lng], {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 100
+            }).bindPopup(item.description).addTo(map);
+        });
+    }
 });
