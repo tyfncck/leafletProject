@@ -2,14 +2,14 @@
 {
     public class Areas
     {
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public int UserId { get; set; }
+        public int userId { get; set; }
 
-        public string Latitude { get; set; }
+        public string? latitude { get; set; }
 
-        public string Longitude { get; set; }
+        public string? longitude { get; set; }
 
-        public string Description { get; set; }
+        public string? description { get; set; }
     }
 }

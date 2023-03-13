@@ -44,14 +44,14 @@ $("#find_btn").click(function() {
 
                 Marker = new L.marker([position.coords.latitude, position.coords.longitude], markerOptions).bindPopup("Konumun");
 
-                Circle = new L.circle([position.coords.latitude, position.coords.longitude], {
-                    color: 'red',
-                    fillColor: '#f03',
-                    fillOpacity: 0.5,
-                    radius: 100
-                }).bindPopup("Alanın");
+                // Circle = new L.circle([position.coords.latitude, position.coords.longitude], {
+                //     color: 'red',
+                //     fillColor: '#f03',
+                //     fillOpacity: 0.5,
+                //     radius: 100
+                // }).bindPopup("Alanın");
 
-                layerGroup = L.layerGroup([Marker, Circle]);
+                layerGroup = L.layerGroup([Marker]);
 
                 layerGroup.addTo(map);
                 $("#result").html("Konum <br />Lat : " + position.coords.latitude + " </br>Lang :" + position.coords.longitude); //
@@ -69,7 +69,6 @@ map.on('click', (event) => {
     Marker = L.marker([event.latlng.lat, event.latlng.lng]).addTo(map);
     $("#result").html("Konum <br />Lat : " + event.latlng.lat + " </br>Lang :" + event.latlng.lng);
 });
-
 
 $.ajax({
     url: 'Home/GetAreas',
