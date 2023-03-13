@@ -33,8 +33,8 @@ $("#find_btn").click(function() { //user clicks button
         //try to get user current location using getCurrentPosition() method
         navigator.geolocation.getCurrentPosition(function(position) {
             // $("#result").html("Konum <br />Lat : " + position.coords.latitude + " </br>Lang :" + position.coords.longitude);
+            if (layerGroup !== undefined) {
 
-            if (map.hasLayer(layerGroup)) {
                 map.removeLayer(layerGroup);
 
                 var Marker = new L.marker([position.coords.latitude, position.coords.longitude], markerOptions).bindPopup("Bulunduğunuz Konum");
@@ -46,20 +46,7 @@ $("#find_btn").click(function() { //user clicks button
                     radius: 100
                 }).bindPopup("Bulunduğunuz Alan");
 
-                var layerGroup = L.layerGroup([Marker, Circle]);
-
-                layerGroup.addTo(map);
-            } else {
-                var Marker = new L.marker([position.coords.latitude, position.coords.longitude], markerOptions).bindPopup("Bulunduğunuz Konum");
-
-                var Circle = new L.circle([position.coords.latitude, position.coords.longitude], {
-                    color: 'red',
-                    fillColor: '#f03',
-                    fillOpacity: 0.5,
-                    radius: 100
-                }).bindPopup("Bulunduğunuz Alan");
-
-                var layerGroup = L.layerGroup([Marker, Circle]);
+                layerGroup = L.layerGroup([Marker, Circle]);
 
                 layerGroup.addTo(map);
             }
